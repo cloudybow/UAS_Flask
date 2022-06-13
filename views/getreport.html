@@ -1,0 +1,53 @@
+<!--<h3>Get Report Below!</h3>
+        <form action="{{url_for('getReport')}}" method="post">
+            <p>Select Report From: </p><br>
+            <input type="date" name="date_from" id="">
+            <p>To: </p>
+            <input type="date" name="date_to" id="">
+            <p>From Table: </p><br>
+            <select name="selected" id="">
+                {% for d in dropdown_data %}
+                    <option value="{{d.name}}">{{d.name}}</option>
+                {% endfor %}
+            </select><br>
+            <button type="submit">Get Report</button>
+        </form>-->
+{% extends "layoutadmin.html" %}
+
+{% block content %}
+<center>
+    <div class="sidenav" style="margin-top: 3%;">
+        <div class="login-main-text">
+            <h2>Get Report Below!</h2>
+         </div> 
+ </div>
+ <div class="main">
+    <div class="col-md-6 col-sm-12">
+       <div class="login-form">
+          <form action="{{url_for('getReport')}}" method="post">
+             <div class="form-group">
+                <label>Select Report From</label>
+                <input type="date" name="date_from" class="form-control" placeholder="User Name">
+             </div>
+             <div class="form-group">
+                <label>To:</label>
+                <input type="date" name="date_to" class="form-control" placeholder="Password">
+             </div>
+             <div class="form-group">
+                <label>From Table: </label>
+                <select name="selected" id="">
+                    {% for d in dropdown_data %}
+                        <option value="{{d.name}}">{{d.name}}</option>
+                    {% endfor %}
+                </select><br>
+                <button type="submit">Get Report</button>
+             </div>
+             <button type="submit" class="btn btn-secondary">Login</button>
+          </form>
+       </div>
+    </div>
+ </div>
+</center>
+</center>
+    
+{% endblock %}

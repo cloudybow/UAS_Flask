@@ -1,0 +1,32 @@
+{% extends "layoutadmin.html" %}
+
+{% block content %}
+<center>
+<div class="sidenav" style="margin-top: 3%;">
+        <div class="login-main-text">
+            <h2>Update Admin Data</h2>
+         </div> 
+ </div>
+ <div class="main">
+    <div class="col-md-6 col-sm-12">
+       <div class="login-form">
+          <form>
+             <div class="form-group">
+                <label>User Name</label>
+                <input type="text" class="form-control" placeholder="User Name">
+             </div>
+             <div class="form-group">
+                <label>email</label>
+                <input type="text" class="form-control" placeholder="email">
+             </div>
+             <div class="form-group">
+                <label>Nomor Telepon</label>
+                <input type="text" class="form-control" placeholder="telepon">
+             </div>
+             <button type="submit" class="btn btn-secondary"><a href="#">Update</a></button>
+          </form>
+       </div>
+    </div>
+ </div>
+ </center>
+{% endblock %}

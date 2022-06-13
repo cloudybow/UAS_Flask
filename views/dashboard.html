@@ -1,0 +1,30 @@
+{% extends "layoutadmin.html" %}
+
+{% block content %}
+<center>
+    <div class="row" style='margin-left:5%;'>
+        <div clas="col-lg-3" style="margin-top: 5%;">
+            <img class="img-fluid rounded-circle " src="static/img/slide/slide-1.jpg" alt="We Cant display this images." width='200' height='300px'>
+        </div>
+        <br>
+        <br>
+        <div>
+            <div>
+                    <h2>{{ tbstaff.name }}</h2>
+                    <h6>{{ tbstaff.username }}</h6>
+                    <br> 
+            </div>
+            <div>
+                <h4>General Info</h4>
+                <table class="table table-hover" style="width: 30%;">
+                    <tr>
+                        <td><b> Role ID</b></td>
+                        <td>{{ tbstaff.roleID }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</center>
+
+{% endblock %}

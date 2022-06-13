@@ -1,0 +1,72 @@
+<!--<html>
+    <head>
+        <title>Room Booking</title>
+    </head>
+    <body>
+        {%if access == false %}
+            <a href="{{url_for('room', id=1)}}">Access Denied. Place Booking First!</a>
+        {% else %}
+            <h1>Booking Detail</h1>
+            <h3>Room Name: {{data.roomData.name}}</h3>
+            <h3>Room Price: Rp.{{data.roomData.price}}/per Night</h3>
+            <h3>Room Amount: {{data.roomAmount}} Rooms</h3>
+            <h3>Day Staying: {{data.roomDay}} Days</h3>
+            <h2>Total: Rp.{{data.roomTotal}}</h2>
+            <form action="{{url_for('roomBook')}}" method="post">
+                <a href="{{url_for('room', id=1)}}"> Cancel Booking</a><br>
+                <button type="submit">Book Now</button>
+            </form>
+        {% endif %}
+    </body>
+</html>-->
+{% extends "layout.html" %}
+
+{% block content %}
+<center>
+    <div class="row" style='margin-left:5%;'>
+        <div clas="col-lg-3" style="margin-top: 5%;">
+            <img class="img-fluid rounded-circle " src="static/img/slide/slide-1.jpg" alt="We Cant display this images." width='200' height='300px'>
+        </div>
+        <br>
+        <br>
+        <div>
+            <div>
+                    <h2>Room Booking</h2>
+                    <br> 
+            </div>
+            <div>
+                <h4>Booking Detail</h4>
+
+                    <a href="{{url_for('room', id=1)}}">Access Denied. Place Booking First!</a>
+                <table class="table table-hover" style="width: 30%;">
+                    <tr>
+                        <td><b>Room Name: </b></td>
+                        <td>{{data.roomData.name}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Room Price: </b></td>
+                        <td>Rp. {{data.roomData.price}} / per Night</td>
+                    </tr>
+                    <tr>
+                        <td><b>Room Amount:</b></td>
+                        <td>{{data.roomAmount}} Rooms</td>
+                    </tr>
+                    <tr>
+                        <td><b>Day Staying: </b></td>
+                        <td>{{data.roomDay}} Days</td>
+                    </tr>
+                    <tr>
+                        <td><b>Total: </b></td>
+                        <td>Rp.{{data.roomTotal}}</td>
+                    </tr>
+                    <form action="{{url_for('roomBook')}}" method="post">
+                        <a href="{{url_for('room', id=1)}}"> Cancel Booking</a><br>
+                        <button type="submit">Book Now</button>
+                    </form>
+
+                </table>
+            </div>
+        </div>
+    </div>
+</center>
+{% endblock content %}

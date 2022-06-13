@@ -1,0 +1,33 @@
+<html>
+    <h1>Rent Data from {{ date_from }} to {{ date_to }}</h1>
+    <table border='1'>
+        <thead>
+            <tr>
+                <th>Rent ID</th>
+                <th>Customer ID</th>
+                <th>Room ID</th>
+                <th>From</th>
+                <th>To</th>
+                <th>Price</th>
+                <th>Day</th>
+                <th>Room Amount</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for d in data %}
+            <tr>
+                <td>{{d.rentID}}</td>
+                <td>{{d.customerID}}</td>
+                <td>{{d.roomID}}</td>
+                <td>{{d.date_from}}</td>
+                <td>{{d.date_to}}</td>
+                <td>{{d.price}}</td>
+                <td>{{d.day}}</td>
+                <td>{{d.amount}}</td>
+                <td>{{d.total}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</html>
