@@ -4,13 +4,19 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import date, datetime
 import os
 import pdfkit
+from flask_mail import Mail, Message
 
 app = Flask(__name__, template_folder="views")
 app.config['SECRET_KEY'] = '@#$123456&*()'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:''@localhost/dbhotel'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['PDF_FOLDER'] = os.path.realpath('.')+'/static/pdf'
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
 db = SQLAlchemy(app)
+mail = Mail(app)
 from model import tbcheck, tbroom,tbcustomer,tbrent,tbstaff,tbstaffrole
 
 #CUSTOMER#
@@ -190,7 +196,7 @@ def staffLogin():
             session['loggedin'] = True
             session['role']='admin'
             session['staffID'] = staffData.staffID
-            return redirect(url_for('db'))
+            return redirect(url_for('dashboard'))
 
 @app.route('/login/logoutadmin')
 def logoutadmin():
@@ -204,7 +210,8 @@ def logoutadmin():
 @app.route('/staffregis', methods=['POST','GET'])
 def staffregister():
     if request.method == 'GET':
-        return render_template('newadmin.html')
+        role_list = tbstaffrole.query.all()
+        return render_template('newadmin.html', role_list=role_list)
     
     if request.method == 'POST':
         #get the last id of staff
@@ -212,9 +219,9 @@ def staffregister():
         last_id = last_id.staffID
         #adding data to tbstaff
         staffData = tbstaff(last_id+1, 
-            request.form.get('name'),
-            request.form.get('username'),
-            request.form.get('password'),
+            request.form.get('name'), 
+            request.form.get('username'), 
+            request.form.get('password'), 
             request.form.get('roleID'))
         db.session.add(staffData)
         db.session.commit()
@@ -223,7 +230,7 @@ def staffregister():
         return render_template('login.html')
 
 @app.route('/OTEL.COM-dashboard')
-def db():
+def dashboard():
     if 'loggedin' in session:
         # User is loggedin show them the home page
         data = tbstaff.query.filter_by(staffID = session['staffID']).first()
@@ -329,6 +336,31 @@ def getReport():
             return response
         else:
             return render_template('getreport.html')
-        
+
+@app.route('/dashboard/advertisement_mail', methods=['GET', 'POST'])
+def admail():
+    if request.method == 'GET':
+        return render_template('staff_advertisement.html')
+
+    elif request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        subject = request.form['subject']
+        message = request.form['message']
+
+        app.config['MAIL_USERNAME'] = email
+        app.config['MAIL_PASSWORD'] = password
+
+        #fetch all customer
+        cust = tbcustomer.query.all()
+        #sending in bulk
+        with mail.connect() as conn:
+            for d in cust:
+                msg = Message(subject,
+                recipients=[d.email],
+                body=message,
+                sender = email)
+                conn.send(msg)
+
 if __name__ == '__main__':
     app.run(debug=True)

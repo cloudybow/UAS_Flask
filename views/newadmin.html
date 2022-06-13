@@ -24,8 +24,13 @@
                 <input name="password" type="password" class="form-control" placeholder="Password">
              </div>
              <div class="form-group">
-                <label>Role ID</label>
-                <input name="roleID" type="number" class="form-control" placeholder="Password">
+                <label>Role</label>
+                <!-- <input name="roleID" type="number" class="form-control" placeholder="Password"> -->
+                <select name="roleID">
+                  {% for d in role_list %}
+                     <option value="{{ d.roleID }}">{{d.name}}</option>
+                  {% endfor%}
+                </select>
              </div>
              <button type="submit" class="btn btn-secondary">Register</button>
           </form>

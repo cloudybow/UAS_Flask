@@ -63,15 +63,15 @@ class tbcheck(db.Model):
 class tbstaffrole(db.Model):
     __tablename__ = 'tbstaffrole'
     roleID = db.Column(db.Integer, primary_key=True)
-    roleName = db.Column(db.String(50))
+    name = db.Column(db.String(50))
 
-    def __init__(self, roleID, roleName):
+    def __init__(self, roleID, name):
         self.roleID = roleID
-        self.roleName = roleName
+        self.name = name
 
     def __repr__(self):
         return '[%s, %s]' % \
-        (self.roleID, self.roleName)
+        (self.roleID, self.name)
 
 class tbstaff(db.Model):
     __tablename__ = 'tbstaff'
