@@ -10,28 +10,20 @@
  <div class="main">
     <div class="col-md-6 col-sm-12">
        <div class="login-form">
-          <form>
-             <div class="form-group">
-                <label>Nama Hotel</label>
-                <input type="text" class="form-control" placeholder="namahotel">
-             </div>
+          <form action="{{url_for('newhotel')}}" method="post">
              <div class="form-group">
                 <label>Tipe Kamar</label>
-                <input type="text" class="form-control" placeholder="tipekamar">
-             </div>
-             <div class="form-group">
-                <label>Room ID</label>
-                <input type="text" class="form-control" placeholder="roomid">
-             </div>
-             <div class="form-group">
-                <label>Jumlah Kamar</label>
-                <input type="text" class="form-control" placeholder="jumlahkamar">
+                <input name="name" type="text" class="form-control" placeholder="Tipe Kamar Hotel">
              </div>
              <div class="form-group">
                 <label>Harga</label>
-                <input type="text" class="form-control" placeholder="harga">
+                <input name="price" type="text" class="form-control" placeholder="Harga Kamar">
              </div>
-             <button type="submit" class="btn btn-secondary"><a href="#">Add New hotel</a></button>
+             <div class="form-group">
+                <label>Room ID</label>
+                <input name="stock" type="text" class="form-control" placeholder="Jumlah Kamar">
+             </div>
+             <button type="submit" class="btn btn-secondary">Add New hotel</button>
           </form>
        </div>
     </div>

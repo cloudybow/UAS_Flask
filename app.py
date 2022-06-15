@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import date, datetime
 import os
 import pdfkit
+import time
 from flask_mail import Mail, Message
 
 app = Flask(__name__, template_folder="views")
@@ -11,10 +12,18 @@ app.config['SECRET_KEY'] = '@#$123456&*()'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://root:''@localhost/dbhotel'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 app.config['PDF_FOLDER'] = os.path.realpath('.')+'/static/pdf'
+
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USE_SSL'] = False
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+
+# open .flaskenv and change the mail_username var
+app.config['MAIL_USERNAME'] = os.environ.get('MAIL_USERNAME')
+# enable two-step auth in google account, and create app-specific password with your GMAIL
+# put the password below
+app.config['MAIL_PASSWORD'] = "dwgcuuhmvhzdhbfy"
+
 db = SQLAlchemy(app)
 mail = Mail(app)
 from model import tbcheck, tbroom,tbcustomer,tbrent,tbstaff,tbstaffrole
@@ -237,6 +246,27 @@ def dashboard():
         return render_template('dashboard.html', staffID=session['staffID'], tbstaff=data, title='Dashboard',year=datetime.now().year)
     return redirect(url_for('staffLogin'))
 
+@app.route('/addhotel', methods=['POST','GET'])
+def newhotel():
+    if request.method == 'GET':
+        role_list = tbroom.query.all()
+        return render_template('newhotel.html', role_list=role_list)
+    
+    if request.method == 'POST':
+        #get the last id of staff
+        last_id = tbroom.query.order_by(tbroom.roomID.desc()).first()
+        last_id = last_id.roomID
+        #adding data to tbstaff
+        hotelData = tbroom(last_id+1, 
+            request.form.get('name'), 
+            request.form.get('price'), 
+            request.form.get('stock'))
+        db.session.add(hotelData)
+        db.session.commit()
+        print('Data added!')
+
+        return render_template('newhotel.html')
+
 @app.route('/dashboard/booking', methods=['GET'])
 def booking():
     if 'staffID' in session:
@@ -343,13 +373,8 @@ def admail():
         return render_template('staff_advertisement.html')
 
     elif request.method == 'POST':
-        email = request.form['email']
-        password = request.form['password']
         subject = request.form['subject']
         message = request.form['message']
-
-        app.config['MAIL_USERNAME'] = email
-        app.config['MAIL_PASSWORD'] = password
 
         #fetch all customer
         cust = tbcustomer.query.all()
@@ -359,8 +384,10 @@ def admail():
                 msg = Message(subject,
                 recipients=[d.email],
                 body=message,
-                sender = email)
+                sender = app.config['MAIL_USERNAME'])
+                time.sleep(10)
                 conn.send(msg)
+        return redirect(url_for('admail'))
 
 if __name__ == '__main__':
     app.run(debug=True)

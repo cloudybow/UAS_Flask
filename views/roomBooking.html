@@ -1,24 +1,3 @@
-<!--<html>
-    <head>
-        <title>Room Booking</title>
-    </head>
-    <body>
-        {%if access == false %}
-            <a href="{{url_for('room', id=1)}}">Access Denied. Place Booking First!</a>
-        {% else %}
-            <h1>Booking Detail</h1>
-            <h3>Room Name: {{data.roomData.name}}</h3>
-            <h3>Room Price: Rp.{{data.roomData.price}}/per Night</h3>
-            <h3>Room Amount: {{data.roomAmount}} Rooms</h3>
-            <h3>Day Staying: {{data.roomDay}} Days</h3>
-            <h2>Total: Rp.{{data.roomTotal}}</h2>
-            <form action="{{url_for('roomBook')}}" method="post">
-                <a href="{{url_for('room', id=1)}}"> Cancel Booking</a><br>
-                <button type="submit">Book Now</button>
-            </form>
-        {% endif %}
-    </body>
-</html>-->
 {% extends "layout.html" %}
 
 {% block content %}
