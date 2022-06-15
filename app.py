@@ -183,7 +183,7 @@ def roomBook():
         session['msg'] = "Data added successfully!"
         return redirect(url_for('allRoom'))
     else:
-        return render_template('roomDetail.html', msg="Booking is Unavailable. Login First!")
+        return render_template('roomDetail.html', msg="Booking is Unavailable. Login First!", data=roomData)
 
 #STAFF#
 @app.route('/staff_login', methods=['GET','POST'])
@@ -266,6 +266,42 @@ def newhotel():
         print('Data added!')
 
         return render_template('newhotel.html')
+
+@app.route('/allhotel', methods=['GET'])
+def allhotel():
+    if request.method == 'GET':
+        #get all room data
+        roomData = tbroom.query.all()
+        return render_template('allhotel.html', roomData = roomData)
+
+@app.route('/updatehotel/<id>', methods=['GET','POST'])
+def updateRoom(id):
+    roomData = tbroom.query.filter_by(roomID = id).first()
+
+    if request.method == 'GET':
+        return render_template('updateroom.html', roomData=roomData)
+
+    elif request.method == 'POST':
+        roomData.name = request.form['name']
+        roomData.price = request.form['price']
+        roomData.stock = request.form['stock']
+        db.session.merge(roomData)
+        db.session.commit()
+        return redirect(url_for('allhotel'))
+
+@app.route('/deletehotel/<id>', methods=['GET','POST'])
+def deleteRoom(id):
+    roomData = tbroom.query.filter_by(roomID = id).first()
+
+    if request.method == 'GET':
+        return render_template('deleteroom.html', roomData=roomData)
+
+    elif request.method == 'POST':
+        if request.form['btn'] == 'yes':
+            db.session.delete(roomData)
+            db.session.commit()
+
+        return redirect(url_for('allhotel'))
 
 @app.route('/dashboard/booking', methods=['GET'])
 def booking():
@@ -388,6 +424,7 @@ def admail():
                 time.sleep(10)
                 conn.send(msg)
         return redirect(url_for('admail'))
+
 
 if __name__ == '__main__':
     app.run(debug=True)

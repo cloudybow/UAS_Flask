@@ -1,0 +1,41 @@
+{% extends "layoutadmin.html" %}
+
+{% block content %}
+<center>
+    <div class="row" style='margin-left:5%;'>
+        <div clas="col-lg-3" style="margin-top: 5%;">
+            <img class="img-fluid rounded-circle " src="static/img/slide/slide-1.jpg" alt="We Cant display this images." width='200' height='300px'>
+        </div>
+        <br>
+        <br>
+        <div>
+            <div>
+                <h2>Delete Room</h2>
+                <br> 
+            </div>
+            <div>
+                <h4>Room Detail</h4>
+                <table class="table table-hover" style="width: 30%;">
+                    <tr>
+                        <td><b>Room Name: </b></td>
+                        <td>{{roomData.name}}</td>
+                    </tr>
+                    <tr>
+                        <td><b>Room Price: </b></td>
+                        <td>Rp. {{roomData.price}} / per Night</td>
+                    </tr>
+                    <tr>
+                        <td><b>Room Stock:</b></td>
+                        <td>{{roomData.stock}} Rooms</td>
+                    </tr>
+                </table>
+                <p>Yakin Mau Hapus?</p>
+                <form action="{{url_for('deleteRoom', id = roomData.roomID)}}" method="post">
+                    <button type="submit" name="btn" value="yes">Yes</button>
+                    <button type="submit" name="btn" value="no">No</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</center>
+{% endblock content %}

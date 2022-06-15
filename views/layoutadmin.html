@@ -68,12 +68,11 @@
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="#"><span>Hotel Menu</span> <i class="bi bi-chevron-down"></i></a>
+                                <a href="#"><span>Room Menu</span> <i class="bi bi-chevron-down"></i></a>
                                 <ul>
-                                    <li><a href="{{ url_for('newhotel') }}">Add New Hotel & Room</a></li>
-                                    <li><a href="{{ url_for('getReport') }}">Update Hotel & Room</a></li>
-                                    <li><a href="{{ url_for('booking') }}">View Booking List</a></li>
-                                    <li><a href="#">View all Hotels</a></li>
+                                    <li><a href="{{ url_for('newhotel') }}">Add New Room</a></li>
+                                    <li><a href="{{ url_for('allhotel') }}">View Room List</a></li>
+                                    <li><a href="{{ url_for('booking') }}">Check-In / Check-Out</a></li>
                                 </ul>
                             </li>
                             <li><a href="{{url_for('logoutadmin')}}">Logout</a></li>

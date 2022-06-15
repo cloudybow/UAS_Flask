@@ -1,0 +1,32 @@
+{% extends "layoutadmin.html" %}
+
+{% block content %}
+<center>
+<div class="sidenav" style="margin-top: 3%;">
+        <div class="login-main-text">
+            <h2>Update Room</h2>
+         </div> 
+ </div>
+ <div class="main">
+    <div class="col-md-6 col-sm-12">
+       <div class="login-form">
+          <form action="{{url_for('updateRoom', id = roomData.roomID)}}" method="post">
+             <div class="form-group">
+                <label>Nama Kamar</label>
+                <input name="name" type="text" class="form-control" placeholder="{{roomData.name}}" value="{{roomData.name}}>
+             </div>
+             <div class="form-group">
+                <label>Harga Kamar</label>
+                <input name="price" type="number" class="form-control" placeholder="{{roomData.price}}" value="{{roomData.price}}">
+             </div>
+             <div class="form-group">
+                <label>Stock</label>
+                <input name="stock" type="number" class="form-control" placeholder="{{roomData.stock}}" value="{{roomData.stock}}> 
+             </div>
+             <button type="submit" class="btn btn-secondary">Update Room</button>
+          </form>
+       </div>
+    </div>
+ </div>
+ </center>
+{% endblock %}

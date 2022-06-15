@@ -1,0 +1,41 @@
+{% extends "layoutadmin.html" %}
+
+{% block content %}
+<center>
+    <div class="row" style='margin-left:5%;'>
+        <div clas="col-lg-3" style="margin-top: 5%;">
+            <img class="img-fluid rounded-circle " src="static/img/slide/slide-1.jpg" alt="We Cant display this images." width='200' height='300px'>
+        </div>
+        <br>
+        <br>
+        <div>
+            <div>
+                <h2>All Room List</h2>
+                <br> 
+            </div>
+            <div>
+                <table class="table table-hover" style="width: 30%;">
+                    <tr>
+                        <td><b>Room ID</b></td>
+                        <td><b>Name</b></td>
+                        <td><b>Price</b></td>
+                        <td><b>Stock</b></td>
+                        <td><b>Update</b></td>
+                        <td><b>Delete</b></td>
+                    </tr>
+                    {% for room in roomData%}
+                        <tr>
+                            <td>{{room.roomID}}</td>
+                            <td>{{room.name}}</td>
+                            <td>Rp. {{room.price}}</td>
+                            <td>{{room.stock}}</td>
+                            <td><a href="{{url_for('updateRoom', id = room.roomID)}}">Update</a></td>
+                            <td><a href="{{url_for('deleteRoom', id = room.roomID)}}">Delete</a></td>
+                        </tr>
+                    {% endfor %}
+                </table>
+            </div>
+        </div>
+    </div>
+</center>
+{% endblock content %}
