@@ -361,37 +361,24 @@ def bookingCheck(req, rentID):
     else:
         return render_template('staff_login.html')
 
-@app.route('/dashboard/get_report', methods=['POST'])
+@app.route('/dashboard/get_report', methods=['POST','GET'])
 def getReport():
-    date_from = request.form.get('date_from')
-    date_to = request.form.get('date_to')
-    selected = request.form.get('selected')
+    dropdown_data = [{'name':'Rent'},{'name':'Check-In'}]
 
-    if selected == 'Rent':
-        if date_from != None or date_to != None:
-            rentData = tbrent.query.filter(tbrent.date_stamp.between(date_from, date_to)).all()
-        elif date_to == None:
-            rentData = tbrent.query.filter_by(date_stamp = date_from).all()
-        else:
-            return render_template('getreport.html')
+    if request.method == 'POST':
+        date_from = request.form.get('date_from')
+        date_to = request.form.get('date_to')
+        selected = request.form.get('selected')
 
-        rendered = render_template("rent_data.html", data=rentData, date_from=date_from, date_to=date_to)
-        config = pdfkit.configuration(wkhtmltopdf = "C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe")
-        pdf = pdfkit.from_string(rendered, configuration = config)
-        filename = 'report.pdf'
+        if selected == 'Rent':
+            if date_from != None or date_to != None:
+                rentData = tbrent.query.filter(tbrent.date_stamp.between(date_from, date_to)).all()
+            elif date_to == None:
+                rentData = tbrent.query.filter_by(date_stamp = date_from).all()
+            else:
+                return render_template('getreport.html')
 
-        response = make_response(pdf)
-        response.headers['Content-Type'] = "templates"
-        response.headers['Content-Disposition'] = 'attachment;filename=' + filename
-        return response
-
-    if selected == 'Check-In':
-        date_from = date_from + ' 00:00:00'
-        date_to = date_to + ' 23:59:59'
-
-        if date_from != None or date_to != None:
-            checkData = tbcheck.query.filter((tbcheck.check_in_date >= date_from) & (tbcheck.check_in_date <= date_to)).all()
-            rendered = render_template("checkin_data.html", data=checkData, date_from=date_from, date_to=date_to)
+            rendered = render_template("rent_data.html", data=rentData, date_from=date_from, date_to=date_to)
             config = pdfkit.configuration(wkhtmltopdf = "C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe")
             pdf = pdfkit.from_string(rendered, configuration = config)
             filename = 'report.pdf'
@@ -400,8 +387,27 @@ def getReport():
             response.headers['Content-Type'] = "templates"
             response.headers['Content-Disposition'] = 'attachment;filename=' + filename
             return response
-        else:
-            return render_template('getreport.html')
+
+        if selected == 'Check-In':
+            date_from = date_from + ' 00:00:00'
+            date_to = date_to + ' 23:59:59'
+
+            if date_from != None or date_to != None:
+                checkData = tbcheck.query.filter((tbcheck.check_in_date >= date_from) & (tbcheck.check_in_date <= date_to)).all()
+                rendered = render_template("checkin_data.html", data=checkData, date_from=date_from, date_to=date_to)
+                config = pdfkit.configuration(wkhtmltopdf = "C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltopdf.exe")
+                pdf = pdfkit.from_string(rendered, configuration = config)
+                filename = 'report.pdf'
+
+                response = make_response(pdf)
+                response.headers['Content-Type'] = "templates"
+                response.headers['Content-Disposition'] = 'attachment;filename=' + filename
+                return response
+            else:
+                return render_template('getreport.html', dropdown_data=dropdown_data)
+
+    elif request.method == 'GET':
+        return render_template('getreport.html', dropdown_data=dropdown_data)
 
 @app.route('/dashboard/advertisement_mail', methods=['GET', 'POST'])
 def admail():

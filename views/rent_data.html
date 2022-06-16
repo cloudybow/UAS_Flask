@@ -30,4 +30,5 @@
             {% endfor %}
         </tbody>
     </table>
+    <p>Total Income: {{ data|sum(attribute='total') }}</p>
 </html>
